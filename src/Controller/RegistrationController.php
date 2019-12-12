@@ -12,9 +12,12 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class RegistrationController extends AbstractController
 {
-    /**
-     * @Route("/register", name="app_register")
-     */
+	/**
+	 * @Route("/register", name="app_register")
+	 * @param Request $request
+	 * @param UserPasswordEncoderInterface $passwordEncoder
+	 * @return Response
+	 */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         $user = new User();
