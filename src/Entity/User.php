@@ -94,7 +94,16 @@ class User implements UserInterface
 
 	public function getUsername() {}
 	public function eraseCredentials()  {}
-	public function getRoles() {}
+
+	public function getRoles()
+	{
+		$roles = [];
+		// guarantee every user at least has ROLE_USER
+		$roles[] = 'ROLE_USER';
+
+		return array_unique($roles);
+	}
+
 	public function getSalt() {}
 
 }
