@@ -92,23 +92,9 @@ class User implements UserInterface
       		return $this;
       	}
 
-	public function getUsername()
-      	{
-      		return;
-      	}
+	public function getUsername() {}
+	public function eraseCredentials()  {}
+	public function getRoles() {}
+	public function getSalt() {}
 
-	public function eraseCredentials()
-      	{
-      		return;
-      	}
-
-	public function getRoles()
-      	{
-      		return;
-      	}
-
-	public function getSalt()
-      	{
-      		return;
-      	}
 }
