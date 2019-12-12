@@ -1,25 +1,12 @@
-<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<style>
-    .centered-form{
-        margin-top: 60px;
-    }
-
-    .centered-form .panel{
-        background: rgba(255, 255, 255, 0.8);
-        box-shadow: rgba(0, 0, 0, 0.3) 20px 20px 20px;
-    }
-</style>
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        {% block stylesheets %} {% endblock %}
     </head>
     <body>
         {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        {% block javascripts %} {% endblock %}
     </body>
 </html>
