@@ -40,57 +40,57 @@ class User implements UserInterface
 	private $password;
 
 	public function getId(): ?int
-      	{
-      		return $this->id;
-      	}
+		{
+			return $this->id;
+		}
 
 	public function getFirstName(): ?string
-      	{
-      		return $this->first_name;
-      	}
+		{
+			return $this->first_name;
+		}
 
 	public function setFirstName(string $first_name): self
-      	{
-      		$this->first_name = $first_name;
-      
-      		return $this;
-      	}
+		{
+			$this->first_name = $first_name;
+
+			return $this;
+		}
 
 	public function getLastName(): ?string
-      	{
-      		return $this->last_name;
-      	}
+		{
+			return $this->last_name;
+		}
 
 	public function setLastName(string $last_name): self
-      	{
-      		$this->last_name = $last_name;
-      
-      		return $this;
-      	}
+		{
+			$this->last_name = $last_name;
+
+			return $this;
+		}
 
 	public function getEmail(): ?string
-      	{
-      		return $this->email;
-      	}
+		{
+			return $this->email;
+		}
 
 	public function setEmail(string $email): self
-      	{
-      		$this->email = $email;
-      
-      		return $this;
-      	}
+		{
+			$this->email = $email;
+
+			return $this;
+		}
 
 	public function getPassword(): ?string
-      	{
-      		return $this->password;
-      	}
+		{
+			return $this->password;
+		}
 
 	public function setPassword(string $password): self
-      	{
-      		$this->password = $password;
-      
-      		return $this;
-      	}
+		{
+			$this->password = $password;
+
+			return $this;
+		}
 
 	public function getUsername() {}
 	public function eraseCredentials()  {}

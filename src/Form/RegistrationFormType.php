@@ -15,9 +15,9 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class RegistrationFormType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-        $builder
+	public function buildForm(FormBuilderInterface $builder, array $options)
+	{
+		$builder
 			->add('first_name', TextType::class, [
 				'attr' => [
 					'placeholder' => 'First Name',
@@ -50,45 +50,45 @@ class RegistrationFormType extends AbstractType
 					]),
 				],
 			])
-            ->add('email', EmailType::class, [
+			->add('email', EmailType::class, [
 				'attr' => [
 					'placeholder' => 'Email',
 					'class' => 'form-control input-sm'
 				],
 			])
-            ->add('password', PasswordType::class, [
+			->add('password', PasswordType::class, [
 				'attr' => [
 					'placeholder' => 'Password',
 					'class' => 'form-control input-sm'
 				],
-                // instead of being set onto the object directly,
-                // this is read and encoded in the controller
-                'mapped' => false,
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Please enter a password',
-                    ]),
-                    new Length([
-                        'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
-                        // max length allowed by Symfony for security reasons
-                        'max' => 4096,
-                    ]),
-                ],
-            ])
+				// instead of being set onto the object directly,
+				// this is read and encoded in the controller
+				'mapped' => false,
+				'constraints' => [
+					new NotBlank([
+						'message' => 'Please enter a password',
+					]),
+					new Length([
+						'min' => 6,
+						'minMessage' => 'Your password should be at least {{ limit }} characters',
+						// max length allowed by Symfony for security reasons
+						'max' => 4096,
+					]),
+				],
+			])
 			->add('Register', SubmitType::class, [
 				'attr' => [
 					'placeholder' => 'Register',
 					'class' => 'btn btn-info btn-block'
 				],
 			])
-        ;
-    }
+		;
+	}
 
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults([
-            'data_class' => User::class,
-        ]);
-    }
+	public function configureOptions(OptionsResolver $resolver)
+	{
+		$resolver->setDefaults([
+			'data_class' => User::class,
+		]);
+	}
 }
