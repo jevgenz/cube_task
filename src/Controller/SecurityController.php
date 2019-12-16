@@ -15,7 +15,7 @@ class SecurityController extends AbstractController
 	public function login(AuthenticationUtils $authenticationUtils): Response
 	{
 		if ($this->getUser()) {
-			 return $this->redirectToRoute('dashboard');
+			return $this->redirectToRoute('dashboard');
 		}
 
 		// get the login error if there is one
@@ -32,5 +32,13 @@ class SecurityController extends AbstractController
 	public function logout()
 	{
 		return $this->redirectToRoute('login');
+	}
+
+	/**
+	 * @Route("/confirm", name="email_confirmation")
+	 */
+	public function confirmEmail()
+	{
+		return new Response('Confirmed1111!!!');
 	}
 }

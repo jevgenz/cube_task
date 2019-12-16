@@ -1,21 +1,28 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello DashboardController!{% endblock %}
+{% block title %}TVNET news{% endblock %}
 
 {% block body %}
-<style>
-	.example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-	.example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
 	<a href="logout">Logout</a>
-	<h1>Hello {{ controller_name }}! ✅</h1>
+	{% if rss %}
+		{% for item in rss.channel.item|slice(0,5) %}
+			<div id="content">
+				<div id="item">
+					<div>
+						<img src="{{ item.enclosure.attributes.url }}">
+					</div>
+					<div>
+						<a href="{{ item.link }}">{{ item.title }}</a>
+					</div>
+					<div>
+						{{ item.description }}
+					</div>
+				</div>
+				<br />
+			</div>
+		{% endfor %}
 
-	This friendly message is coming from:
-	<ul>
-		<li>Your controller at <code><a href="{{ 'J:/OpenServer535/OSPanel/domains/cube/src/Controller/DashboardController.php'|file_link(0) }}">src/Controller/DashboardController.php</a></code></li>
-		<li>Your template at <code><a href="{{ 'J:/OpenServer535/OSPanel/domains/cube/templates/dashboard/index.html.twig'|file_link(0) }}">templates/dashboard/index.html.twig</a></code></li>
-	</ul>
-</div>
+	{% else %}
+		{{ 'Nav datu' }}
+	{% endif %}
 {% endblock %}
