@@ -1,27 +1,27 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout.html.twig' %}
 
 {% block title %}TVNET news{% endblock %}
 
 {% block body %}
-	<a href="logout">Logout</a>
 	{% if rss %}
-		{% for item in rss.channel.item|slice(0,5) %}
-			<div id="content">
-				<div id="item">
-					<div>
-						<img src="{{ item.enclosure.attributes.url }}">
-					</div>
-					<div>
-						<a href="{{ item.link }}">{{ item.title }}</a>
-					</div>
-					<div>
-						{{ item.description }}
-					</div>
-				</div>
-				<br />
+		<div class="container" id="tourpackages-carousel">
+			<div>
+				Hello, {{ user }}<a href="logout">Logout</a>
 			</div>
-		{% endfor %}
-
+			<div class="row">
+				{% for item in rss.channel.item|slice(0,5) %}
+					<div class="col-xs-18">
+						<div class="thumbnail">
+							<div class="caption">
+								<h4><a href="{{ item.link }}">{{ item.title }}</a></h4>
+								<img src="{{ item.enclosure.attributes.url }}">
+							</div>
+							<p>{{ item.description }}</p>
+						</div>
+					</div>
+				{% endfor %}
+			</div><!-- End row -->
+		</div><!-- End container -->
 	{% else %}
 		{{ 'Nav datu' }}
 	{% endif %}
