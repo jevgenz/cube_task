@@ -5,9 +5,15 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPMailer\PHPMailer\PHPMailer;
+use Swift_Mailer;
+use Swift_Message;
+use Swift_SmtpTransport;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -64,5 +70,35 @@ class RegistrationController extends AbstractController
 		}
 
 		return $this->json('There is already an account with this email', 200);
+	}
+
+	/**
+	 * @Route("/confirm", name="email_confirmation")
+	 */
+	public function sendConfirmEmail()
+	{
+		$mail = new PHPMailer();
+		$mail->isSMTP();
+		$mail->SMTPAuth = true;
+		$mail->Host = $_ENV['SMTP_MAIL_HOST'];
+		$mail->Username = $_ENV['SMTP_MAIL_USER'];
+		$mail->Password = $_ENV['SMTP_MAIL_PASS'];
+		$mail->Port = $_ENV['SMTP_MAIL_PORT'];
+		$mail->SMTPSecure = 'tls';
+		$mail->SMTPDebug = 0;
+
+		$mail->setFrom('special_cases@inbox.lv');
+		$mail->addAddress('special_cases@inbox.lv');
+
+		$mail->Subject = "confirmation";
+		$mail->isHTML(true);
+		$mail->Body = $this->renderView(
+			'emails/registration.html.twig'
+		);
+
+		$mail->send();
+
+		return $this->render(
+			'emails/registration.html.twig');
 	}
 }

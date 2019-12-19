@@ -33,12 +33,4 @@ class SecurityController extends AbstractController
 	{
 		return $this->redirectToRoute('login');
 	}
-
-	/**
-	 * @Route("/confirm", name="email_confirmation")
-	 */
-	public function confirmEmail()
-	{
-		return new Response('Confirmed1111!!!');
-	}
 }

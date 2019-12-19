@@ -39,10 +39,21 @@ class User implements UserInterface
 	 */
 	private $password;
 
+	/**
+	 * @ORM\Column(type="string", length=255)
+	 */
+	private $hash_str;
+
+	/**
+	 * @ORM\Column(type="boolean", options={"default":"0"})
+	 */
+	private $email_verified_f;
+
 	public function getId(): ?int
 	{
 		return $this->id;
 	}
+
 
 	public function setFirstName(string $first_name): self
 	{
@@ -112,5 +123,25 @@ class User implements UserInterface
 
 	public function getSalt()
 	{
+	}
+
+	public function getHashStr(): ?string
+	{
+		return $this->hash_str;
+	}
+
+	public function setHashStr($hash_str): ?string
+	{
+		$this->hash_str = $hash_str;
+	}
+
+	public function getEmailVerifiedF(): bool
+	{
+		return $this->email_verified_f;
+	}
+
+	public function setEmailVerifiedF($email_verified_f): bool
+	{
+		$this->email_verified_f = $email_verified_f;
 	}
 }
