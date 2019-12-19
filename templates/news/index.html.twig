@@ -6,7 +6,7 @@
 	{% if rss %}
 		<div class="container" id="tourpackages-carousel">
 			<div>
-				Hello, {{ user }}<a href="logout">Logout</a>
+				<a href="{{ path('logout') }}">Logout</a>
 			</div>
 			<div class="row">
 				{% for item in rss.channel.item|slice(0,5) %}

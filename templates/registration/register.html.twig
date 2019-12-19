@@ -6,6 +6,9 @@
 	<div class="container">
 		<div class="row centered-form">
 			<div class="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-4">
+				<div>
+					<a href="{{ path('login') }}">Login</a>
+				</div>
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<h3 class="panel-title">Please sign up for <b>TVNET</b> news</h3>
@@ -45,4 +48,36 @@
 			</div>
 		</div>
 	</div>
+{% endblock %}
+{% block javascripts %}
+	<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$('#registration_form_email').blur(function () {
+
+				let email = $('#registration_form_email').val();
+
+				$.ajax({
+					url: 'email_available',
+					type: 'post',
+					data: {
+						'email': email,
+					},
+
+					success: function (response) {
+						$("ul").remove();
+						if (response != '') {
+							$("#registration_form_email").before("<ul><li>" + response + "</li></ul>");
+						}
+					},
+
+					error: function (e) {
+						$("#result").html("Something went wrong");
+					}
+
+				});
+			});
+		});
+	</script>
 {% endblock %}

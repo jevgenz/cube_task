@@ -84,7 +84,17 @@ class User implements UserInterface
 
 	public function getUsername(): ?string
 	{
-		return $this->first_name . ' ' . $this->last_name;
+		return ($this->first_name . ' ' . $this->last_name);
+	}
+
+	public function getFirstName(): ?string
+	{
+		return $this->first_name;
+	}
+
+	public function getLastName(): ?string
+	{
+		return $this->last_name;
 	}
 
 	public function eraseCredentials()
@@ -103,5 +113,4 @@ class User implements UserInterface
 	public function getSalt()
 	{
 	}
-
 }

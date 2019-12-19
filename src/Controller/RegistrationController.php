@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -45,5 +46,23 @@ class RegistrationController extends AbstractController
 		return $this->render('registration/register.html.twig', [
 			'registrationForm' => $form->createView(),
 		]);
+	}
+
+	/**
+	 * @Route("/email_available", name="email_available")
+	 * @param Request $request
+	 * @param EntityManagerInterface $entityManager
+	 * @return Response
+	 */
+	public function checkEmailAvailable(Request $request, EntityManagerInterface $entityManager): Response
+	{
+		if ($request->isMethod('POST')) {
+			$email = $request->request->get('email');
+			if (!$entityManager->getRepository(User::class)->findOneBy(['email' => $email])) {
+				return $this->json('', 200);
+			};
+		}
+
+		return $this->json('There is already an account with this email', 200);
 	}
 }
