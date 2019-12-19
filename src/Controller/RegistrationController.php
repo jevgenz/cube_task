@@ -37,7 +37,7 @@ class RegistrationController extends AbstractController
 				)
 			);
 
-			$user->setHashStr(md5($user->getId()));
+			$user->setHashStr(md5($user->getEmail()));
 			$user->setEmailVerifiedF(false);
 
 			$entityManager = $this->getDoctrine()->getManager();
@@ -93,7 +93,7 @@ class RegistrationController extends AbstractController
 		$mail->isHTML(true);
 		$mail->Body = $this->renderView(
 			'emails/confirmation.html.twig',
-			['token' => $token, 'email' => $email]
+			['rout_url' => mb_substr($_SERVER['SYMFONY_DEFAULT_ROUTE_URL'], 0, -1), 'token' => $token, 'email' => $email]
 		);
 		$mail->send();
 		return $this->render(

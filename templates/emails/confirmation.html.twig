@@ -1,5 +1,5 @@
 {% extends 'layout.html.twig' %}
 
 {% block body %}
-	Please confirm url <a href="{{ path('email_verification') }}?token={{ token }}&email={{ email }}">here</a>
+	Please confirm url <a href="{{ rout_url }}{{ path('email_verification') }}?token={{ token }}&email={{ email }}">here</a>
 {% endblock %}

@@ -69,6 +69,11 @@ class User implements UserInterface
 		return $this;
 	}
 
+	public function isVerified(): ?bool
+	{
+		return $this->getEmailVerifiedF();
+	}
+
 	public function getEmail(): ?string
 	{
 		return $this->email;
