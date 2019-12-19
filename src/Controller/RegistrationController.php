@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,6 +20,7 @@ class RegistrationController extends AbstractController
 	 * @param Request $request
 	 * @param UserPasswordEncoderInterface $passwordEncoder
 	 * @return Response
+	 * @throws Exception
 	 */
 	public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
 	{
@@ -35,11 +37,14 @@ class RegistrationController extends AbstractController
 				)
 			);
 
+			$user->setHashStr(md5($user->getId()));
+			$user->setEmailVerifiedF(false);
+
 			$entityManager = $this->getDoctrine()->getManager();
 			$entityManager->persist($user);
 			$entityManager->flush();
 
-			// do anything else you need here, like send an email
+			$this->sendConfirmEmail($user->getEmail(), $user->getHashStr());
 
 			return $this->redirectToRoute('login');
 		}
@@ -61,17 +66,17 @@ class RegistrationController extends AbstractController
 			$email = $request->request->get('email');
 			if (!$entityManager->getRepository(User::class)->findOneBy(['email' => $email])) {
 				return $this->json('', 200);
-			};
+			}
 		}
-
 		return $this->json('There is already an account with this email', 200);
 	}
 
 	/**
-	 * @Route("/confirm", name="email_confirmation")
-	 * @throws \PHPMailer\PHPMailer\Exception
+	 * @param $email
+	 * @return Response
+	 * @throws Exception
 	 */
-	public function sendConfirmEmail()
+	private function sendConfirmEmail($email, $token)
 	{
 		$mail = new PHPMailer();
 		$mail->isSMTP();
@@ -82,19 +87,40 @@ class RegistrationController extends AbstractController
 		$mail->Port = $_ENV['SMTP_MAIL_PORT'];
 		$mail->SMTPSecure = 'tls';
 		$mail->SMTPDebug = 0;
-
 		$mail->setFrom('special_cases@inbox.lv');
-		$mail->addAddress('special_cases@inbox.lv');
-
+		$mail->addAddress($email);
 		$mail->Subject = "confirmation";
 		$mail->isHTML(true);
 		$mail->Body = $this->renderView(
+			'emails/confirmation.html.twig',
+			['token' => $token, 'email' => $email]
+		);
+		$mail->send();
+		return $this->render(
 			'emails/registration.html.twig'
 		);
+	}
 
-		$mail->send();
-
-		return $this->render(
-			'emails/registration.html.twig');
+	/**
+	 * @Route("/verify_email", name="email_verification")
+	 * @param Request $request
+	 * @param EntityManagerInterface $entityManager
+	 * @return Response
+	 */
+	public function verifyEmail(Request $request, EntityManagerInterface $entityManager): Response
+	{
+		if ($request->isMethod('GET')) {
+			$email = $request->get('email');
+			$token = $request->get('token');
+			if ($user = $entityManager->getRepository(User::class)->findOneBy(['email' => $email, 'hash_str' => $token])) {
+				$user->setEmailVerifiedF(true);
+				$entityManager->flush();
+				return $this->render(
+					'emails/verified.html.twig'
+				);
+			} else {
+				throw $this->createNotFoundException('Email not found');
+			}
+		}
 	}
 }

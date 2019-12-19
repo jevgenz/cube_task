@@ -132,7 +132,7 @@ class User implements UserInterface
 
 	public function setHashStr($hash_str): ?string
 	{
-		$this->hash_str = $hash_str;
+		return $this->hash_str = $hash_str;
 	}
 
 	public function getEmailVerifiedF(): bool
@@ -142,6 +142,6 @@ class User implements UserInterface
 
 	public function setEmailVerifiedF($email_verified_f): bool
 	{
-		$this->email_verified_f = $email_verified_f;
+		return $this->email_verified_f = $email_verified_f;
 	}
 }
